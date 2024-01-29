@@ -1,0 +1,73 @@
+openapi: 3.0.0
+info:
+    title: Document API
+    version: 1.0.0
+paths:
+    /documents/{id}:
+        get:
+            summary: Get document by ID
+            parameters:
+                - name: id
+                    in: path
+                    description: ID of the document
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Document'
+        put:
+            summary: Update document by ID
+            parameters:
+                - name: id
+                    in: path
+                    description: ID of the document
+                    required: true
+                    schema:
+                        type: string
+                - name: document
+                    in: body
+                    description: Updated document object
+                    required: true
+                    schema:
+                        $ref: '#/components/schemas/Document'
+            security:
+                - admin:
+                    - user
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Document'
+components:
+    schemas:
+        Document:
+            type: object
+            properties:
+                id:
+                    type: string
+                title:
+                    type: string
+                content:
+                    type: string
+    securitySchemes:
+        admin:
+            type: oauth2
+            flows:
+                clientCredentials:
+                    tokenUrl: https://example.com/oauth/token
+                    scopes:
+                        admin: Admin scope
+        user:
+            type: oauth2
+            flows:
+                clientCredentials:
+                    tokenUrl: https://example.com/oauth/token
+                    scopes:
+                        user: User scope
