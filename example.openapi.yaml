@@ -1,3 +1,6 @@
+###################################################
+# Example open api spec for client api generation.
+###################################################
 openapi: '3.0.2'
 info:
   title: Example Api
@@ -5,14 +8,47 @@ info:
 servers:
   - url: https://api.server.test/v1
 paths:
-  /document:
+  /documents:
     get:
+      operationId: getDocuments
+      summary: Get all documents
       responses:
         '200':
-          description: OK
+          description: Documents retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Documents'
+      security:
+        - user: [documents.read]
+  /documents/{documentId}:
+    get:
+      operationId: getDocument
+      summary: Get a document by id
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Document retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
       security:
         - user: [documents.read]
     post:
+      operationId: uploadDocument
+      summary: Update a document by id
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -42,3 +78,7 @@ components:
           type: string
         content:
           type: string
+    Documents:
+      type: array
+      items:
+        $ref: '#/components/schemas/Document'
