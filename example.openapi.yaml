@@ -1,6 +1,6 @@
-###################################################
+#####################
 # Example open api spec for client api generation.
-###################################################
+#####################
 openapi: '3.0.2'
 info:
   title: Example Api
@@ -74,6 +74,8 @@ components:
     Document:
       type: object
       properties:
+        id:
+          type: string
         name:
           type: string
         content:
