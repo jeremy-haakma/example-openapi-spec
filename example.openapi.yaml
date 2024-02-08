@@ -21,6 +21,19 @@ paths:
                 $ref: '#/components/schemas/Documents'
       security:
         - user: [documents.read]
+    post:
+      operationId: uploadDocument
+      summary: Update a document by id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Document'
+      responses:
+        '200':
+          description: Document uploaded successfully
+      security:
+        - user: [documents.write]
   /documents/{documentId}:
     get:
       operationId: getDocument
@@ -40,8 +53,8 @@ paths:
                 $ref: '#/components/schemas/Document'
       security:
         - user: [documents.read]
-    post:
-      operationId: uploadDocument
+    put:
+      operationId: updateDocument
       summary: Update a document by id
       parameters:
         - name: documentId
@@ -56,7 +69,21 @@ paths:
               $ref: '#/components/schemas/Document'
       responses:
         '200':
-          description: Document uploaded successfully
+          description: Document updated successfully
+      security:
+        - user: [documents.write]
+    delete:
+      operationId: deleteDocument
+      summary: Delete a document by id
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Document deleted successfully
       security:
         - user: [documents.write]
 components:
