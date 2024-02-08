@@ -23,7 +23,7 @@ paths:
         - user: [documents.read]
     post:
       operationId: uploadDocument
-      summary: Update a document by id
+      summary: Update a document
       requestBody:
         content:
           application/json:
