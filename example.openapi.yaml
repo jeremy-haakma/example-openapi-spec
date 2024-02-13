@@ -1,113 +1,104 @@
-#####################
-# Example open api spec for client api generation.
-#####################
-openapi: '3.0.2'
+openapi: 3.0.0
 info:
-  title: Example Api
-  version: '1.0'
-servers:
-  - url: https://api.server.test/v1
+  title: Product API
+  version: 1.0.0
+  
 paths:
-  /documents:
+  /products:
     get:
-      operationId: getDocuments
-      summary: Get all documents
+      summary: Get all products
+      tags:
+        - example
       responses:
         '200':
-          description: Documents retrieved successfully
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Documents'
-      security:
-        - user: [documents.read]
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
     post:
-      operationId: uploadDocument
-      summary: Update a document
+      summary: Create a new product
+      tags:
+        - example
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Document'
+              $ref: '#/components/schemas/Product'
       responses:
-        '200':
-          description: Document uploaded successfully
-      security:
-        - user: [documents.write]
-  /documents/{documentId}:
-    get:
-      operationId: getDocument
-      summary: Get a document by id
-      parameters:
-        - name: documentId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Document retrieved successfully
+        '201':
+          description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Document'
-      security:
-        - user: [documents.read]
-    put:
-      operationId: updateDocument
-      summary: Update a document by id
+                $ref: '#/components/schemas/Product'
+  /products/{id}:
+    get:
+      summary: Get a product by ID
+      tags:
+        - example
       parameters:
-        - name: documentId
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+    put:
+      summary: Update a product by ID
+      tags:
+        - example
+      parameters:
+        - name: id
           in: path
           required: true
           schema:
             type: string
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Document'
+              $ref: '#/components/schemas/Product'
       responses:
         '200':
-          description: Document updated successfully
-      security:
-        - user: [documents.write]
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
     delete:
-      operationId: deleteDocument
-      summary: Delete a document by id
+      summary: Delete a product by ID
+      tags:
+        - example
       parameters:
-        - name: documentId
+        - name: id
           in: path
           required: true
           schema:
             type: string
       responses:
-        '200':
-          description: Document deleted successfully
-      security:
-        - user: [documents.write]
+        '204':
+          description: No Content
 components:
-  securitySchemes:
-    user:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: https://api.server.test/oauth2/authorize
-          scopes:
-            documents.read: Document read scope
-            documents.write: Document write scope
-            user: User scope
   schemas:
-    Document:
+    Product:
       type: object
       properties:
         id:
           type: string
         name:
           type: string
-        content:
+        description:
           type: string
-    Documents:
-      type: array
-      items:
-        $ref: '#/components/schemas/Document'
+        version:
+          type: string
